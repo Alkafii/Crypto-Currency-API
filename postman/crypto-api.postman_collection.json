@@ -1,0 +1,481 @@
+{
+  "info": {
+    "name": "Crypto API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Basic",
+      "item": [
+        {
+          "name": "Get all crypto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));",
+                  "pm.test(\"total = 200\", () => pm.expect(j.total).to.eql(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto"
+          }
+        },
+        {
+          "name": "Get categories",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));",
+                  "pm.test(\"12 categories\", () => pm.expect(j.data.length).to.eql(12));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/categories"
+          }
+        },
+        {
+          "name": "Get detail BTC",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));",
+                  "pm.test(\"symbol = BTC\", () => pm.expect(j.data.symbol).to.eql(\"BTC\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto/BTC"
+          }
+        },
+        {
+          "name": "Get detail (lowercase) eth",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));",
+                  "pm.test(\"symbol = ETH\", () => pm.expect(j.data.symbol).to.eql(\"ETH\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto/eth"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Filter category",
+      "item": [
+        {
+          "name": "category=DeFi",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));",
+                  "pm.test(\"all DeFi\", () => pm.expect(j.data.every(c => c.category === \"DeFi\")).to.be.true);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?category=DeFi"
+          }
+        },
+        {
+          "name": "category=gaming (case-insensitive)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));",
+                  "pm.test(\"all Gaming\", () => pm.expect(j.data.every(c => c.category === \"Gaming\")).to.be.true);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?category=gaming"
+          }
+        },
+        {
+          "name": "category=Layer 1 (spasi di-encode)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));",
+                  "pm.test(\"all Layer 1\", () => pm.expect(j.data.every(c => c.category === \"Layer 1\")).to.be.true);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?category=Layer%201"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Filter price",
+      "item": [
+        {
+          "name": "min_price=1 & max_price=100",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));",
+                  "pm.test(\"1 <= price <= 100\", () => pm.expect(j.data.every(c => c.price_usd >= 1 && c.price_usd <= 100)).to.be.true);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?min_price=1&max_price=100"
+          }
+        },
+        {
+          "name": "min_price=1000 & max_price=100000",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));",
+                  "pm.test(\"1000 <= price <= 100000\", () => pm.expect(j.data.every(c => c.price_usd >= 1000 && c.price_usd <= 100000)).to.be.true);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?min_price=1000&max_price=100000"
+          }
+        },
+        {
+          "name": "hanya min_price=100000",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?min_price=100000"
+          }
+        },
+        {
+          "name": "hanya max_price=0.0001",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?max_price=0.0001"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Kombinasi filter",
+      "item": [
+        {
+          "name": "DeFi + 1..100",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));",
+                  "pm.test(\"DeFi AND 1..100\", () => pm.expect(j.data.every(c => c.category === \"DeFi\" && c.price_usd >= 1 && c.price_usd <= 100)).to.be.true);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?category=DeFi&min_price=1&max_price=100"
+          }
+        },
+        {
+          "name": "Meme + max 0.001",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?category=Meme&max_price=0.001"
+          }
+        },
+        {
+          "name": "Stablecoin + 0.99..1.01",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?category=Stablecoin&min_price=0.99&max_price=1.01"
+          }
+        },
+        {
+          "name": "Hasil kosong (Meme >= 1000)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const j = pm.response.json();",
+                  "pm.test(\"status = success\", () => pm.expect(j.status).to.eql(\"success\"));",
+                  "pm.test(\"total = 0\", () => pm.expect(j.total).to.eql(0));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?category=Meme&min_price=1000"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Error cases",
+      "item": [
+        {
+          "name": "Symbol tidak ada -> 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"message\", () => pm.expect(pm.response.json().message).to.eql(\"Cryptocurrency not found\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto/NOPE"
+          }
+        },
+        {
+          "name": "Category tidak valid -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"message\", () => pm.expect(pm.response.json().message).to.eql(\"Invalid filter parameter\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?category=Foo"
+          }
+        },
+        {
+          "name": "min_price bukan angka -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?min_price=abc"
+          }
+        },
+        {
+          "name": "min_price > max_price -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?min_price=100&max_price=10"
+          }
+        },
+        {
+          "name": "Parameter tidak dikenal -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/crypto?minprice=1"
+          }
+        },
+        {
+          "name": "Endpoint tidak ada -> 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/unknown"
+          }
+        }
+      ]
+    }
+  ]
+}

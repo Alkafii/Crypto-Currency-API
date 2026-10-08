@@ -1,0 +1,18 @@
+{
+  "name": "crypto-api",
+  "version": "1.0.0",
+  "description": "REST API Cryptocurrency (data dummy) untuk latihan filter category & rentang harga",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "generate-data": "node scripts/generate-data.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
